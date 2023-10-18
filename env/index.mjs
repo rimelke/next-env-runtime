@@ -3,11 +3,11 @@ import { createEnv } from "./tools.mjs";
 
 export const schema = {
   client: {
-    FON: z.string(),
+    "Settings:FontColor": z.string(),
   },
   server: {
     REVALIDATE_TOKEN: z.string().default("secret"),
   },
 };
 
-export const { client, env } = createEnv(schema);
+export const getEnv = () => createEnv(schema);

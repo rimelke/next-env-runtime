@@ -2,12 +2,12 @@
 import { useEnv } from "@/hooks/useEnv";
 
 const Home = () => {
-  const { FON } = useEnv();
+  const env = useEnv();
 
   return (
     <div>
       <h1>Home</h1>
-      <h2>FON - {FON}</h2>
+      <h2>FON - {env["Settings:FontColor"]}</h2>
     </div>
   );
 };

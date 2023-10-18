@@ -1,13 +1,12 @@
 import { z } from "zod";
+import { getConfig } from "./azure.mjs";
 
-const getParsedEnv = (schema) => {
+const getParsedEnv = (config, schema) => {
   const rawEnv = Object.keys(schema).reduce((acc, key) => {
-    const value = process.env[key];
+    acc[key] = config[key];
 
-    return { ...acc, [key]: value };
+    return acc;
   }, {});
-
-  if (process.env.IS_BUILDING) return rawEnv;
 
   const result = z.object(schema).safeParse(rawEnv);
 
@@ -23,9 +22,17 @@ const getParsedEnv = (schema) => {
   return result.data;
 };
 
-export const createEnv = (options) => {
-  const client = getParsedEnv(options.client);
-  const server = getParsedEnv(options.server);
+export const createEnv = async (options) => {
+  if (process.env.IS_BUILDING)
+    return {
+      client: {},
+      env: {},
+    };
+
+  const config = await getConfig();
+
+  const client = getParsedEnv(config, options.client);
+  const server = getParsedEnv(config, options.server);
 
   return {
     client,
