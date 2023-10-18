@@ -7,7 +7,7 @@ const appConfigClient = new AppConfigurationClient(
 const getConfigFn = async () => {
   const asyncItems = appConfigClient.listConfigurationSettings({
     keyFilter: "TestApp:*",
-    labelFilter: process.env.AZURE_ENVIRONMENT_LABEL,
+    labelFilter: `\0,${process.env.AZURE_ENVIRONMENT_LABEL}`,
   });
 
   const newConfigs = [];
