@@ -1,11 +1,11 @@
 "use client";
-import type { Env } from "@/env";
+import type { ClientEnv } from "@/env";
 import { PropsWithChildren, createContext } from "react";
 
-export const EnvContext = createContext({} as Env);
+export const EnvContext = createContext({} as ClientEnv);
 
 interface EnvProviderProps {
-  env: Env;
+  env: ClientEnv;
 }
 
 export const EnvProvider = ({
