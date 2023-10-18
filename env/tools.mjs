@@ -1,18 +1,13 @@
-import { ZodType, z } from "zod";
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { z } from "zod";
 
-type EnvSchema = { [key: string]: ZodType<any> };
-
-const getParsedEnv = <T extends EnvSchema>(
-  schema: T
-): Partial<{ [key in keyof T]: z.infer<T[key]> }> => {
+const getParsedEnv = (schema) => {
   const rawEnv = Object.keys(schema).reduce((acc, key) => {
     const value = process.env[key];
 
     return { ...acc, [key]: value };
-  }, {} as { [key in keyof T]: string });
+  }, {});
 
-  if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) return rawEnv;
+  if (process.env.IS_BUILDING) return rawEnv;
 
   const result = z.object(schema).safeParse(rawEnv);
 
@@ -28,13 +23,7 @@ const getParsedEnv = <T extends EnvSchema>(
   return result.data;
 };
 
-export const createEnv = <
-  TClient extends EnvSchema,
-  TServer extends EnvSchema
->(options: {
-  client: TClient;
-  server: TServer;
-}) => {
+export const createEnv = (options) => {
   const client = getParsedEnv(options.client);
   const server = getParsedEnv(options.server);
 

@@ -1,5 +1,5 @@
 "use client";
-import type { ClientEnv } from "@/env";
+import { ClientEnv } from "env";
 import { PropsWithChildren, createContext } from "react";
 
 export const EnvContext = createContext({} as ClientEnv);

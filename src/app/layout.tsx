@@ -1,5 +1,5 @@
 import { EnvProvider } from "@/contexts/EnvContext";
-import { client } from "@/env";
+import { client } from "env";
 import { PropsWithChildren } from "react";
 
 export const metadata = {
